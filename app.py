@@ -46,7 +46,7 @@ app.layout = html.Div(
 
         dcc.Interval(
             id='graph-update',
-            interval=5*1000
+            interval=4*1000
         ),
 
         dcc.Interval(
@@ -99,7 +99,7 @@ def update_piechart(theme):
     values = [positive_percentage, negative_percentage, neutral_percentage]
     colors = ['#00FF00','#F20505','#FFFF00']
 
-    trace = go.Pie(labels=labels, values=values,
+    trace = plotly.graph_objs.Pie(labels=labels, values=values,
                    hoverinfo='label+percent', textinfo='value', 
                    textfont=dict(size=20),
                    marker=dict(colors=colors, 
