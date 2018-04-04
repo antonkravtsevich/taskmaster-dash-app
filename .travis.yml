@@ -1,0 +1,19 @@
+sudo: required
+
+services:
+  - docker
+  - mongodb
+
+language: python
+python:
+  - "3.5"
+cache: pip
+install:
+  - pip install -r requirements.txt
+script:
+  - python test.py
+notifications: 
+  email: false
+
+after_success:
+  - sh .travis/deploy_dockerhub.sh
