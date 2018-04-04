@@ -1,12 +1,10 @@
 import os
 import dash
-from dash.dependencies import Output, Event, Input
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly
 import random
 import requests
-import plotly.graph_objs as go
 from collections import deque
 import sys
 
@@ -59,9 +57,9 @@ app.layout = html.Div(
 )
 
 
-@app.callback(Output('live-graph', 'figure'),
-              [Input(component_id='film-dropdown', component_property='value')],
-              events=[Event('graph-update', 'interval')])
+@app.callback(dash.dependencies.Output('live-graph', 'figure'),
+              [dash.dependencies.Input(component_id='film-dropdown', component_property='value')],
+              events=[dash.dependencies.Event('graph-update', 'interval')])
 def update_graph_scatter(theme):
     data = get_polarity(theme)
     polarity_array = data['polarity']
@@ -77,13 +75,13 @@ def update_graph_scatter(theme):
             mode= 'lines'
             )
 
-    return {'data': [data],'layout' : go.Layout(xaxis=dict(range=[min(X),max(X)]),
+    return {'data': [data],'layout' : plotly.graph_objs.Layout(xaxis=dict(range=[min(X),max(X)]),
                                                 yaxis=dict(range=[min(Y)-0.1,max(Y)+0.1]),)}
 
 
-@app.callback(Output('sentiment-pie', 'figure'),
-              [Input(component_id='film-dropdown', component_property='value')],
-              events=[Event('sentiment-pie-update', 'interval')])
+@app.callback(dash.dependencies.Output('sentiment-pie', 'figure'),
+              [dash.dependencies.Input(component_id='film-dropdown', component_property='value')],
+              events=[dash.dependencies.Event('sentiment-pie-update', 'interval')])
 def update_piechart(theme):
     request_theme = theme.lower().replace(' ', '+')
     data = get_percentage(request_theme)
@@ -107,13 +105,13 @@ def update_piechart(theme):
                    marker=dict(colors=colors, 
                                line=dict( width=2)))
 
-    return {"data":[trace],'layout' : go.Layout(
+    return {"data":[trace],'layout' : plotly.graph_objs.Layout(
                                                   title=theme+' tweet piechart',
                                                   showlegend=True)}
 
 
-@app.callback(Output('header', 'children'),
-    [Input('film-dropdown', 'value')])
+@app.callback(dash.dependencies.Output('header', 'children'),
+    [dash.dependencies.Input('film-dropdown', 'value')])
 def update_output(value):
     return '{} live rating'.format(value)
 
