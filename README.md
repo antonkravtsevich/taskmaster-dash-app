@@ -2,8 +2,4 @@
 
 Data visualize app based on Dash, deployed on Heroku
 
-## Testing
-
-```bash
-python test.py
-```
+[Open app](https://taskmaster-dash.herokuapp.com/)
